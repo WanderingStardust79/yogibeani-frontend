@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YogiBeani — Move With Charlene</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-logo">YogiBeani</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#about">About</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#schedule">Schedule</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content reveal">
+            <p class="hero-eyebrow">Come Move With Me</p>
+            <h1 class="hero-title">YogiBeani</h1>
+            <div class="hero-divider"></div>
+            <p class="hero-tagline">Everyone Is Welcome.</p>
+            <a href="#schedule" class="btn btn-primary hero-cta">View Schedule</a>
+        </div>
+        <div class="hero-scroll-hint">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="about-grid reveal">
+                <div class="about-image-wrapper">
+                    <div class="about-image-frame">
+                        <img src="./assets/portrait-headshot.jpg" alt="Charlene - Yoga Instructor" class="about-image" loading="lazy">
+                    </div>
+                    <div class="about-image-accent"></div>
+                </div>
+                <div class="about-text">
+                    <p class="section-eyebrow">Meet Your Instructor</p>
+                    <h2 class="section-title">Hi, I'm<br>Charlene</h2>
+                    <div class="section-divider"></div>
+                    <p class="about-description">
+                        I'm a yoga instructor based in the Salt Lake City area. 
+                        I believe yoga is for every body — whether you're flowing through a heated vinyasa or finding your first downward dog.
+                    </p>
+                    <p class="about-description">
+                        My classes are energetic, inclusive, and community-driven. From hot yoga and power flows to partner yoga workshops, 
+                        I love creating spaces where people push their boundaries while discovering what their bodies can do. 
+                        Come sweat, breathe, and grow with me.
+                    </p>
+                    <p class="about-philosophy">
+                        <em>"Get your yoga on. Everyone is welcome."</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section gallery" id="gallery">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-eyebrow">On the Mat</p>
+                <h2 class="section-title">Gallery</h2>
+                <div class="section-divider center"></div>
+            </div>
+            <div class="gallery-grid reveal">
+                <div class="gallery-item gallery-item-tall">
+                    <img src="./assets/beach-silhouette.jpg" alt="Beach yoga silhouette" loading="lazy">
+                    <div class="gallery-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./assets/group-class-red.jpg" alt="Group yoga class with red studio lighting" loading="lazy">
+                    <div class="gallery-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./assets/solo-studio-pose.jpg" alt="Solo yoga pose in studio" loading="lazy">
+                    <div class="gallery-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./assets/yoga-group-event.jpg" alt="Group yoga event" loading="lazy">
+                    <div class="gallery-overlay"></div>
+                </div>
+                <div class="gallery-item gallery-item-tall">
+                    <img src="./assets/solo-outdoors.jpg" alt="Solo yoga pose outdoors" loading="lazy">
+                    <div class="gallery-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./assets/portrait-headshot.jpg" alt="Charlene portrait" loading="lazy">
+                    <div class="gallery-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="section schedule" id="schedule">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-eyebrow">This Week</p>
+                <h2 class="section-title">Class Schedule</h2>
+                <div class="section-divider center"></div>
+                <p class="section-subtitle">Find your practice. Book your spot.</p>
+            </div>
+            
+            <div class="schedule-tabs reveal" id="scheduleTabs">
+                <button class="schedule-tab active" data-day="0">Mon</button>
+                <button class="schedule-tab" data-day="1">Tue</button>
+                <button class="schedule-tab" data-day="2">Wed</button>
+                <button class="schedule-tab" data-day="3">Thu</button>
+                <button class="schedule-tab" data-day="4">Fri</button>
+                <button class="schedule-tab" data-day="5">Sat</button>
+                <button class="schedule-tab" data-day="6">Sun</button>
+            </div>
+            
+            <div class="schedule-classes" id="scheduleClasses">
+                <div class="schedule-loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading classes...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section pricing" id="pricing">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-eyebrow">Invest in You</p>
+                <h2 class="section-title">Pricing</h2>
+                <div class="section-divider center"></div>
+                <p class="section-subtitle">Flexible options for every practice.</p>
+            </div>
+            
+            <div class="pricing-grid reveal">
+                <div class="pricing-card">
+                    <div class="pricing-card-inner">
+                        <h3 class="pricing-name">Single Class</h3>
+                        <div class="pricing-amount"><span class="pricing-currency">$</span>10</div>
+                        <p class="pricing-per">per class</p>
+                        <ul class="pricing-features">
+                            <li>Any single class</li>
+                            <li>No commitment</li>
+                            <li>Pay as you go</li>
+                        </ul>
+                        <button class="btn btn-outline pricing-btn" data-package="drop_in" data-amount="10" data-label="Single Class">Purchase</button>
+                    </div>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Best Value</div>
+                    <div class="pricing-card-inner">
+                        <h3 class="pricing-name">Unlimited</h3>
+                        <div class="pricing-amount"><span class="pricing-currency">$</span>25</div>
+                        <p class="pricing-per">per month</p>
+                        <ul class="pricing-features">
+                            <li>Unlimited classes</li>
+                            <li>Best value</li>
+                            <li>Cancel anytime</li>
+                        </ul>
+                        <button class="btn btn-primary pricing-btn" data-package="unlimited" data-amount="25" data-label="Unlimited Monthly">Purchase</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="contact-grid reveal">
+                <div class="contact-info">
+                    <p class="section-eyebrow">Find Us</p>
+                    <h2 class="section-title">Get in<br>Touch</h2>
+                    <div class="section-divider"></div>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div>
+                                <p class="contact-label">Location</p>
+                                <p class="contact-value">Salt Lake City area<br>Location coming soon</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            </div>
+                            <div>
+                                <p class="contact-label">Instagram</p>
+                                <p class="contact-value"><a href="https://www.instagram.com/yogibeani/" target="_blank" rel="noopener noreferrer">@yogibeani</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <div>
+                                <p class="contact-label">Email</p>
+                                <p class="contact-value">yogibeani@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <div>
+                                <p class="contact-label">Hours</p>
+                                <p class="contact-value">Mon–Fri: 6:00 AM – 9:00 PM<br>Sat–Sun: 8:00 AM – 2:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-map">
+                    <div class="map-placeholder">
+                        <div class="map-pin">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <p class="map-address">Salt Lake City Area<br>Utah</p>
+                        <p class="map-note">Studio location coming soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <p class="footer-logo">YogiBeani</p>
+                    <p class="footer-tagline">Everyone Is Welcome.</p>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/yogibeani/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 YogiBeani. All rights reserved.</p>
+                    <a href="#" class="footer-admin" id="adminLink">Admin</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== MODALS ========== -->
+
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal">
+            <button class="modal-close" id="bookingClose">&times;</button>
+            
+            <!-- Step 1: Email Check -->
+            <div class="modal-step" id="bookingStep1">
+                <h3 class="modal-title">Book Your Spot</h3>
+                <div class="booking-class-info" id="bookingClassInfo"></div>
+                <div class="form-group">
+                    <label class="form-label">Your Email</label>
+                    <input type="email" class="form-input" id="bookingEmail" placeholder="you@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" id="bookingName" placeholder="Full name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone (optional)</label>
+                    <input type="tel" class="form-input" id="bookingPhone" placeholder="(801) 555-1234">
+                </div>
+                <button class="btn btn-primary btn-full" id="bookingContinue">Continue</button>
+                <p class="modal-note" id="bookingNote"></p>
+            </div>
+            
+            <!-- Step 2: Confirmation -->
+            <div class="modal-step hidden" id="bookingStep2">
+                <div class="booking-success">
+                    <div class="success-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <h3 class="modal-title">You're Booked!</h3>
+                    <div id="bookingConfirmDetails"></div>
+                    <button class="btn btn-primary btn-full" id="bookingDone">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Waiver Modal -->
+    <div class="modal-overlay" id="waiverModal">
+        <div class="modal modal-large">
+            <button class="modal-close" id="waiverClose">&times;</button>
+            <h3 class="modal-title">Liability Waiver</h3>
+            <p class="modal-subtitle">Please complete this waiver before your first class.</p>
+            
+            <div class="waiver-text" id="waiverText">
+                <h4>Release of Liability & Assumption of Risk</h4>
+                <p>I, the undersigned, hereby acknowledge that I have voluntarily chosen to participate in yoga classes, workshops, or other activities offered by Charlene Barber / YogiBeani ("the Instructor"). I understand that yoga and related physical activities involve certain inherent risks, including but not limited to: muscle strains, sprains, fractures, joint injuries, cardiovascular complications, and other physical injuries.</p>
+                
+                <h4>Assumption of Risk</h4>
+                <p>I am aware that participating in yoga classes involves physical activity that may be strenuous and may cause physical injury. I voluntarily assume all risks associated with my participation, including but not limited to falls, contact with other participants, and the effects of exercise, including overexertion, muscle strain, abnormal blood pressure, fainting, and other physical injuries.</p>
+                
+                <h4>Medical Acknowledgment</h4>
+                <p>I affirm that I am in good physical health and have no medical conditions that would prevent my participation in yoga activities. I understand that it is my responsibility to consult with a physician prior to participation if I have any concerns about my ability to safely participate. I agree to inform the instructor of any physical limitations, medical conditions, or injuries before each class.</p>
+                
+                <h4>Release and Waiver</h4>
+                <p>In consideration of being allowed to participate in yoga activities, I hereby release, discharge, and hold harmless Charlene Barber / YogiBeani, and any affiliated studios, their owners, employees, and agents from any and all liability, claims, demands, or causes of action that I may have or acquire against them arising out of or related to any loss, damage, or injury, including death, that may be sustained by me as a result of my participation in said activities.</p>
+                
+                <h4>Photography & Media</h4>
+                <p>I grant YogiBeani / Charlene Barber permission to use photographs, video, or other media taken during classes for promotional purposes unless I notify the instructor in writing otherwise.</p>
+            </div>
+            
+            <div class="waiver-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Full Legal Name *</label>
+                        <input type="text" class="form-input" id="waiverName" placeholder="Full name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-input" id="waiverEmail" placeholder="you@email.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Phone *</label>
+                        <input type="tel" class="form-input" id="waiverPhone" placeholder="(801) 555-1234">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <input type="text" class="form-input" id="waiverDate" readonly>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Emergency Contact Name *</label>
+                        <input type="text" class="form-input" id="waiverEmergencyName" placeholder="Contact name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Emergency Contact Phone *</label>
+                        <input type="tel" class="form-input" id="waiverEmergencyPhone" placeholder="(801) 555-1234">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Medical Conditions or Injuries (if any)</label>
+                    <textarea class="form-input form-textarea" id="waiverMedical" placeholder="List any conditions your instructor should know about..." rows="3"></textarea>
+                </div>
+                
+                <div class="signature-section">
+                    <label class="form-label">Signature *</label>
+                    <div class="signature-pad-wrapper">
+                        <canvas id="signatureCanvas" class="signature-canvas"></canvas>
+                        <button class="signature-clear" id="signatureClear">Clear</button>
+                    </div>
+                </div>
+                
+                <label class="checkbox-label">
+                    <input type="checkbox" id="waiverAgree">
+                    <span class="checkbox-custom"></span>
+                    <span>I have read and agree to the terms of this liability waiver</span>
+                </label>
+                
+                <button class="btn btn-primary btn-full" id="waiverSubmit">Sign Waiver & Continue</button>
+                <p class="modal-note" id="waiverNote"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase Modal -->
+    <div class="modal-overlay" id="purchaseModal">
+        <div class="modal">
+            <button class="modal-close" id="purchaseClose">&times;</button>
+            
+            <div class="modal-step" id="purchaseStep1">
+                <h3 class="modal-title">Purchase Package</h3>
+                <div class="purchase-info" id="purchaseInfo"></div>
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" id="purchaseName" placeholder="Full name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Your Email</label>
+                    <input type="email" class="form-input" id="purchaseEmail" placeholder="you@email.com">
+                </div>
+                <button class="btn btn-primary btn-full" id="purchaseSubmit">Record Purchase</button>
+                <p class="modal-note" id="purchaseNote">Payment integration coming soon. This records your intent.</p>
+            </div>
+            
+            <div class="modal-step hidden" id="purchaseStep2">
+                <div class="booking-success">
+                    <div class="success-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <h3 class="modal-title">Purchase Recorded!</h3>
+                    <p class="modal-subtitle">We'll reach out with payment details soon. Thank you!</p>
+                    <button class="btn btn-primary btn-full" id="purchaseDone">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel hidden" id="adminPanel">
+        <div class="admin-overlay" id="adminOverlay"></div>
+        <div class="admin-container">
+            <!-- Admin Login -->
+            <div class="admin-login" id="adminLogin">
+                <div class="admin-login-card">
+                    <h3 class="modal-title">Admin Access</h3>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="adminPassword" placeholder="Enter password">
+                    </div>
+                    <button class="btn btn-primary btn-full" id="adminLoginBtn">Login</button>
+                    <button class="btn btn-ghost btn-full" id="adminCancel">Cancel</button>
+                    <p class="modal-note" id="adminNote"></p>
+                </div>
+            </div>
+            
+            <!-- Admin Dashboard -->
+            <div class="admin-dashboard hidden" id="adminDashboard">
+                <div class="admin-header">
+                    <h2 class="admin-title">Studio Dashboard</h2>
+                    <button class="btn btn-ghost" id="adminLogout">Close Admin</button>
+                </div>
+                
+                <div class="admin-stats" id="adminStats"></div>
+                
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="admin-classes">Classes</button>
+                    <button class="admin-tab" data-tab="admin-bookings">Bookings</button>
+                    <button class="admin-tab" data-tab="admin-waivers">Waivers</button>
+                    <button class="admin-tab" data-tab="admin-clients">Clients</button>
+                    <button class="admin-tab" data-tab="admin-purchases">Purchases</button>
+                    <button class="admin-tab" data-tab="admin-settings">Settings</button>
+                </div>
+                
+                <div class="admin-content">
+                    <div class="admin-pane active" id="admin-classes">
+                        <div class="admin-pane-header">
+                            <h3>Manage Classes</h3>
+                            <button class="btn btn-primary btn-sm" id="addClassBtn">+ Add Class</button>
+                        </div>
+                        <div class="admin-table-wrap" id="adminClassesTable"></div>
+                    </div>
+                    <div class="admin-pane" id="admin-bookings">
+                        <h3>All Bookings</h3>
+                        <div class="admin-table-wrap" id="adminBookingsTable"></div>
+                    </div>
+                    <div class="admin-pane" id="admin-waivers">
+                        <h3>Signed Waivers</h3>
+                        <div class="admin-table-wrap" id="adminWaiversTable"></div>
+                    </div>
+                    <div class="admin-pane" id="admin-clients">
+                        <h3>Client List</h3>
+                        <div class="admin-table-wrap" id="adminClientsTable"></div>
+                    </div>
+                    <div class="admin-pane" id="admin-purchases">
+                        <h3>Purchase Records</h3>
+                        <div class="admin-table-wrap" id="adminPurchasesTable"></div>
+                    </div>
+                    <div class="admin-pane" id="admin-settings">
+                        <h3>Studio Settings</h3>
+                        <div class="settings-sections">
+                            <div class="settings-card">
+                                <h4 class="settings-card-title">Stripe Payment Configuration</h4>
+                                <p class="settings-card-desc">Connect Stripe to accept online payments. Get your keys from the <a href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener noreferrer">Stripe Dashboard</a>.</p>
+                                <div class="form-group">
+                                    <label class="form-label">Publishable Key</label>
+                                    <input type="text" class="form-input" id="settingsStripeKey" placeholder="pk_test_...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Drop-in Price ID</label>
+                                    <input type="text" class="form-input" id="settingsPriceDropIn" placeholder="price_...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">5-Class Pack Price ID</label>
+                                    <input type="text" class="form-input" id="settingsPrice5Pack" placeholder="price_...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">10-Class Pack Price ID</label>
+                                    <input type="text" class="form-input" id="settingsPrice10Pack" placeholder="price_...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Unlimited Monthly Price ID</label>
+                                    <input type="text" class="form-input" id="settingsPriceUnlimited" placeholder="price_...">
+                                </div>
+                                <button class="btn btn-primary btn-sm" id="saveStripeSettings">Save Stripe Settings</button>
+                            </div>
+                            <div class="settings-card">
+                                <h4 class="settings-card-title">Studio Information</h4>
+                                <div class="form-group">
+                                    <label class="form-label">Studio Name</label>
+                                    <input type="text" class="form-input" id="settingsStudioName" placeholder="YogiBeani">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" id="settingsStudioEmail" placeholder="yogibeani@gmail.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-input" id="settingsStudioPhone" placeholder="(801) 555-1234">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Address</label>
+                                    <input type="text" class="form-input" id="settingsStudioAddress" placeholder="1086 E Fort Union Blvd, Midvale, UT">
+                                </div>
+                                <button class="btn btn-primary btn-sm" id="saveStudioSettings">Save Studio Info</button>
+                            </div>
+                            <div class="settings-card">
+                                <h4 class="settings-card-title">Pricing Configuration</h4>
+                                <p class="settings-card-desc">Update the pricing amounts shown on the website.</p>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Drop-in ($)</label>
+                                        <input type="number" class="form-input" id="settingsPricingDropIn" placeholder="20">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">5-Class Pack ($)</label>
+                                        <input type="number" class="form-input" id="settingsPricing5Pack" placeholder="85">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">10-Class Pack ($)</label>
+                                        <input type="number" class="form-input" id="settingsPricing10Pack" placeholder="150">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Unlimited Monthly ($)</label>
+                                        <input type="number" class="form-input" id="settingsPricingUnlimited" placeholder="129">
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-sm" id="savePricingSettings">Save Pricing</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Class Modal -->
+    <div class="modal-overlay" id="classFormModal">
+        <div class="modal">
+            <button class="modal-close" id="classFormClose">&times;</button>
+            <h3 class="modal-title" id="classFormTitle">Add Class</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Class Name</label>
+                    <input type="text" class="form-input" id="classFormName" placeholder="e.g., Morning Flow">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Style</label>
+                    <select class="form-input" id="classFormStyle">
+                        <option value="Vinyasa">Vinyasa</option>
+                        <option value="Power">Power</option>
+                        <option value="Yin">Yin</option>
+                        <option value="Gentle">Gentle</option>
+                        <option value="Restorative">Restorative</option>
+                        <option value="Foundations">Foundations</option>
+                        <option value="Hot Yoga">Hot Yoga</option>
+                        <option value="Partner Yoga">Partner Yoga</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Day</label>
+                    <select class="form-input" id="classFormDay">
+                        <option value="0">Monday</option>
+                        <option value="1">Tuesday</option>
+                        <option value="2">Wednesday</option>
+                        <option value="3">Thursday</option>
+                        <option value="4">Friday</option>
+                        <option value="5">Saturday</option>
+                        <option value="6">Sunday</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Time</label>
+                    <input type="text" class="form-input" id="classFormTime" placeholder="e.g., 6:30 AM">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Duration (min)</label>
+                    <input type="number" class="form-input" id="classFormDuration" value="60">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Capacity</label>
+                    <input type="number" class="form-input" id="classFormCapacity" value="20">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Instructor</label>
+                <input type="text" class="form-input" id="classFormInstructor" value="Maya" placeholder="Instructor name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea class="form-input form-textarea" id="classFormDesc" rows="2" placeholder="Brief class description..."></textarea>
+            </div>
+            <input type="hidden" id="classFormId">
+            <button class="btn btn-primary btn-full" id="classFormSubmit">Save Class</button>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- SET YOUR RAILWAY BACKEND URL HERE (no trailing slash) -->
+    <script>window.YOGIBEANI_API = 'https://YOUR-RAILWAY-APP.up.railway.app';</script>
+    <script src="./app.js"></script>
+</body>
+</html>
