@@ -1,0 +1,1 @@
+../../claude-agents/frontend-engineer-agent.md

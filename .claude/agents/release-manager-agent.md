@@ -1,0 +1,1 @@
+../../claude-agents/release-manager-agent.md

@@ -1,0 +1,1 @@
+../../claude-agents/lean-code-assistant.md

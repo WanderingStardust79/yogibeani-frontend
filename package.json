@@ -1,0 +1,10 @@
+{
+  "name": "yogibeani",
+  "version": "1.0.0",
+  "description": "YogiBeani — Charlene's Yoga Studio (monorepo)",
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "start": "cd backend && node server.js",
+    "dev": "cd backend && node server.js"
+  }
+}
