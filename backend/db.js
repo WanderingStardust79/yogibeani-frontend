@@ -59,7 +59,21 @@ db.exec(`
     package_type TEXT NOT NULL,
     amount REAL NOT NULL DEFAULT 0,
     status TEXT NOT NULL DEFAULT 'completed',
+    stripe_session_id TEXT,
+    stripe_customer_id TEXT,
     purchased_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS subscriptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    client_email TEXT NOT NULL,
+    client_name TEXT DEFAULT '',
+    stripe_customer_id TEXT NOT NULL,
+    stripe_subscription_id TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'active',
+    current_period_end TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
   );
 `);
 
@@ -73,6 +87,8 @@ if (settingsCount.count === 0) {
     studio_phone: '',
     studio_address: 'Salt Lake City, UT',
     stripe_publishable_key: '',
+    stripe_secret_key: '',
+    stripe_webhook_secret: '',
     stripe_price_drop_in: '',
     stripe_price_five_pack: '',
     stripe_price_ten_pack: '',

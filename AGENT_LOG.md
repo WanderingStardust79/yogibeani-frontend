@@ -37,21 +37,24 @@ Live tracker of which agents are responsible for each piece of work throughout t
 
 ---
 
-## Sprint 2: Next Up
+## Sprint 2: Stripe Payment Integration (Wave 1 Complete)
 
 ### Wave 1: Payment Integration
 | Task | Agent | Status |
 |------|-------|--------|
-| Stripe Checkout Sessions (one-time + subscription) | `payments-integration-agent` | Pending |
-| Payment webhook endpoint + signature verification | `payments-integration-agent` | Pending |
-| Purchase fulfillment logic (credits, subscription status) | `backend-engineer-agent` | Pending |
-| Frontend Stripe redirect + success/cancel flows | `frontend-engineer-agent` | Pending |
-| Payment-related schema updates (stripe_customer_id, subscription tracking) | `database-engineer-agent` | Pending |
+| Schema updates — subscriptions table, stripe_customer_id, stripe_session_id columns | `database-engineer-agent` | Done |
+| Stripe Checkout Sessions endpoint (one-time + subscription) | `payments-integration-agent` | Done |
+| Webhook endpoint with signature verification + event handlers | `payments-integration-agent` | Done |
+| Billing portal endpoint for subscription management | `payments-integration-agent` | Done |
+| Mount new routes in server.js (raw body for webhooks) | `backend-engineer-agent` | Done |
+| Frontend: server-side checkout flow replacing client-side redirectToCheckout | `frontend-engineer-agent` | Done |
+| Admin settings: added secret key + webhook secret fields | `frontend-engineer-agent` | Done |
+| Endpoint verification — all 19 routes tested | `qa-test-engineer-agent` | Done |
 
 ### Wave 2: Testing & Security
 | Task | Agent | Status |
 |------|-------|--------|
-| API integration tests for all 16+ endpoints | `qa-test-engineer-agent` | Pending |
+| API integration tests for all 19 endpoints | `qa-test-engineer-agent` | Pending |
 | Security review (auth, input validation, Stripe keys) | `security-engineer-agent` | Pending |
 
 ### Wave 3: Deployment
@@ -65,7 +68,7 @@ Live tracker of which agents are responsible for each piece of work throughout t
 | Task | Agent | Status |
 |------|-------|--------|
 | Visual polish, responsive QA | `ui-designer-agent` | Pending |
-| UX flow review (booking → waiver → payment) | `ux-designer-agent` | Pending |
+| UX flow review (booking -> waiver -> payment) | `ux-designer-agent` | Pending |
 | Versioning + changelog | `release-manager-agent` | Pending |
 
 ---

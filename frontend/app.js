@@ -169,27 +169,25 @@ function updatePricingCard(packageType, amount) {
     }
 }
 
-// ========== STRIPE CHECKOUT ==========
-async function redirectToStripeCheckout(priceId, mode) {
-    if (!STRIPE_CONFIG.publishableKey || !priceId) {
-        return false;
-    }
+// ========== STRIPE CHECKOUT (Server-Side Sessions) ==========
+async function redirectToStripeCheckout(packageType, mode, clientEmail, clientName) {
     try {
-        const stripe = Stripe(STRIPE_CONFIG.publishableKey);
-        const { error } = await stripe.redirectToCheckout({
-            lineItems: [{ price: priceId, quantity: 1 }],
-            mode: mode,
-            successUrl: window.location.href.split('?')[0] + '?payment=success',
-            cancelUrl: window.location.href.split('?')[0] + '?payment=cancelled',
+        const result = await apiPost('/api/checkout', {
+            package_type: packageType,
+            client_email: clientEmail || '',
+            client_name: clientName || ''
         });
-        if (error) {
-            showToast(error.message, 'error');
+        if (result.success && result.data && result.data.url) {
+            window.location.href = result.data.url;
+            return true;
+        } else {
+            showToast(result.error || 'Could not start checkout.', 'error');
+            return false;
         }
     } catch (e) {
         showToast('Payment redirect failed. Please try again.', 'error');
         return false;
     }
-    return true;
 }
 
 function handlePaymentReturn() {
@@ -563,21 +561,10 @@ function initPurchaseModal() {
 }
 
 async function startPurchase(pkg, amount, label) {
-    const stripePriceMap = {
-        'drop_in': 'drop_in',
-        '5_pack': 'five_pack',
-        '10_pack': 'ten_pack',
-        'unlimited': 'unlimited'
-    };
-    const stripeKey = stripePriceMap[pkg];
-    const priceId = stripeKey ? STRIPE_CONFIG.prices[stripeKey] : '';
     const mode = pkg === 'unlimited' ? 'subscription' : 'payment';
 
-    if (STRIPE_CONFIG.publishableKey && priceId) {
-        const redirected = await redirectToStripeCheckout(priceId, mode);
-        if (redirected) return;
-    }
-
+    // If Stripe secret key is configured server-side, try server checkout first
+    // Show the modal to collect name/email, then redirect to Stripe
     document.getElementById('purchaseInfo').innerHTML = `
         <h4>${esc(label)}</h4>
         <div class="purchase-price">$${amount}</div>
@@ -586,13 +573,10 @@ async function startPurchase(pkg, amount, label) {
     document.getElementById('purchaseStep2').classList.add('hidden');
     document.getElementById('purchaseSubmit').dataset.package = pkg;
     document.getElementById('purchaseSubmit').dataset.amount = amount;
+    document.getElementById('purchaseSubmit').dataset.mode = mode;
 
     const noteEl = document.getElementById('purchaseNote');
-    if (!STRIPE_CONFIG.publishableKey) {
-        noteEl.textContent = 'Online payments coming soon — contact us to pay.';
-    } else {
-        noteEl.textContent = 'This records your purchase intent. Contact us to finalize payment.';
-    }
+    noteEl.textContent = '';
 
     openModal('purchaseModal');
 }
@@ -607,6 +591,20 @@ async function handlePurchaseSubmit() {
         return;
     }
 
+    // Try server-side Stripe checkout first
+    const checkoutResult = await apiPost('/api/checkout', {
+        package_type: btn.dataset.package,
+        client_email: email,
+        client_name: name
+    });
+
+    if (checkoutResult.success && checkoutResult.data && checkoutResult.data.url) {
+        // Redirect to Stripe Checkout — purchase recorded via webhook on completion
+        window.location.href = checkoutResult.data.url;
+        return;
+    }
+
+    // Fallback: record purchase manually if Stripe is not configured
     const result = await apiPost('/api/purchases', {
         client_name: name,
         client_email: email,
@@ -1013,6 +1011,8 @@ async function loadSettingsIntoForm() {
     if (result.success && result.data) {
         const s = result.data;
         document.getElementById('settingsStripeKey').value = s.stripe_publishable_key || '';
+        document.getElementById('settingsStripeSecret').value = s.stripe_secret_key || '';
+        document.getElementById('settingsWebhookSecret').value = s.stripe_webhook_secret || '';
         document.getElementById('settingsPriceDropIn').value = s.stripe_price_drop_in || '';
         document.getElementById('settingsPrice5Pack').value = s.stripe_price_five_pack || '';
         document.getElementById('settingsPrice10Pack').value = s.stripe_price_ten_pack || '';
@@ -1031,6 +1031,8 @@ async function loadSettingsIntoForm() {
 async function saveStripeSettings() {
     const settings = {
         stripe_publishable_key: document.getElementById('settingsStripeKey').value.trim(),
+        stripe_secret_key: document.getElementById('settingsStripeSecret').value.trim(),
+        stripe_webhook_secret: document.getElementById('settingsWebhookSecret').value.trim(),
         stripe_price_drop_in: document.getElementById('settingsPriceDropIn').value.trim(),
         stripe_price_five_pack: document.getElementById('settingsPrice5Pack').value.trim(),
         stripe_price_ten_pack: document.getElementById('settingsPrice10Pack').value.trim(),
